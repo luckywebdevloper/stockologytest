@@ -10,14 +10,9 @@ import { webinar } from "../../redux/actions/other";
 
 import toast from "react-hot-toast";
 import { Input, Text, Textarea } from "@nextui-org/react";
-import { Grammarly, GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
-const WebinarPopup = () => {
+import { GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
+const WebinarPopup = (closeHandler) => {
   const [visible, setVisible] = React.useState(true);
-  // const handler = () => setVisible(true);
-  const closeHandler = () => {
-    setVisible(false);
-    console.log("closed");
-  };
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,25 +21,11 @@ const WebinarPopup = () => {
 
   const dispatch = useDispatch();
 
-  const { error, message: stateMessage } = useSelector((state) => state.other);
-
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(webinar(name, email, phone, message));
     closeHandler();
   };
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch({ type: "clearError" });
-    }
-
-    if (stateMessage) {
-      toast.success(stateMessage);
-      dispatch({ type: "clearMessage" });
-    }
-  }, [dispatch, error, stateMessage]);
 
   return (
     <>
@@ -53,7 +34,7 @@ const WebinarPopup = () => {
         animated={false}
         aria-labelledby="modal-title"
         open={visible}
-        onClose={closeHandler}
+        closeHandler
         width="600px"
       >
         <Modal.Header>
@@ -141,7 +122,7 @@ const WebinarPopup = () => {
                 type="submit"
                 w={["56"]}
                 borderRadius={"full"}
-                onSubmit={submitHandler}
+                closeHandler
               >
                 Submit
               </Button>

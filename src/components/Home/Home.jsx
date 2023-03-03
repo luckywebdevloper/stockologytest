@@ -29,12 +29,12 @@ import DeliveryMethods from "../DeleveryMethod/DeliveryMethods";
 import Coresvalue from "./Coresvalue";
 import WebinarPopup from "../popup/WebinarPopup";
 
-const Home = ({ isAuthenticated }) => {
+const Home = ({ isAuthenticated, closeHandler }) => {
   return (
     <div className="">
       <div>
         {" "}
-        {!isAuthenticated && <WebinarPopup />}
+        {/* {!isAuthenticated && <WebinarPopup closeHandler={closeHandler} />} */}
         <section className=" bg-gradient-to-b from-blue-100 to-transparent max-h-[2000px]  ">
           <Container lg className="">
             <Stack

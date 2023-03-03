@@ -29,6 +29,7 @@ import {
   updateProfilePicture,
 } from "../../redux/actions/profile";
 import { cancelSubscription, loadUser } from "../../redux/actions/user";
+import Sidebar from "./Sidebar";
 // import { fileUploadCss } from '../Auth/Register';
 
 const Profile = ({ user }) => {
@@ -81,6 +82,10 @@ const Profile = ({ user }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
+  <>
+  {/* <div className=" w-1/6 h-screen bg-gray-300">
+<Sidebar/>
+  </div> */}
     <Container minH={"95vh"} maxW="container.lg" py="8">
       <Heading children="Profile" m="8" textTransform={"uppercase"} />
 
@@ -93,7 +98,7 @@ const Profile = ({ user }) => {
       >
         <VStack>
           <Avatar boxSize={"48"} src={user.avatar.url} />
-          <Button onClick={onOpen} colorScheme={"yellow"} variant="ghost">
+          <Button onClick={onOpen} colorScheme={"green"} variant="ghost">
             Change Photo
           </Button>
         </VStack>
@@ -111,7 +116,7 @@ const Profile = ({ user }) => {
             <Text children="CreatedAt" fontWeight={"bold"} />
             <Text children={user.createdAt.split("T")[0]} />
           </HStack>
-          {user.role !== "admin" && (
+          {/* {user.role !== "admin" && (
             <HStack>
               <Text children="Subscription" fontWeight={"bold"} />
               {user.subscription && user.subscription.status === "active" ? (
@@ -129,7 +134,7 @@ const Profile = ({ user }) => {
                 </Link>
               )}
             </HStack>
-          )}
+          )} */}
           <Stack direction={["column", "row"]} alignItems={"center"}>
             <Link to="/updateprofile">
               <Button>Update Profile</Button>
@@ -161,7 +166,7 @@ const Profile = ({ user }) => {
 
               <HStack>
                 <Link to={`/course/${element.course}`}>
-                  <Button variant={"ghost"} colorScheme="yellow">
+                  <Button variant={"ghost"} colorScheme="green">
                     Watch Now
                   </Button>
                 </Link>
@@ -185,6 +190,8 @@ const Profile = ({ user }) => {
         loading={loading}
       />
     </Container>
+   
+ </>
   );
 };
 
@@ -233,7 +240,7 @@ function ChangePhotoBox({
                 <Button
                   isLoading={loading}
                   w="full"
-                  colorScheme={"yellow"}
+                  colorScheme={"green"}
                   type="submit"
                 >
                   Change
