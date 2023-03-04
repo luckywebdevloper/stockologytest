@@ -130,7 +130,7 @@ const Header = ({ isAuthenticated = false, user }) => {
                   {user && user.role === "admin" && (
                     <Dropdown.Item withDivider color="secondary" onClick={""}>
                       <Link onClick={onClose} to="/admin/dashboard">
-                        <RiDashboardFill style={{ margin: "4px" }} />
+                        
                         Dashboard
                       </Link>
                     </Dropdown.Item>

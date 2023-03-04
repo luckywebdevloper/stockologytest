@@ -35,6 +35,7 @@ import TermAndCondition from "./components/Term/TermAndCondition";
 // import WebinarPopup from "./components/popup/WebinarPopup";
 // import News from "./components/News.jsx/News";
 import LandingPage from "./components/webinar/LandingPage";
+import Webinar from "./components/Admin/webinar/Webinar";
 
 function App() {
   // window.addEventListener("contextmenu", (e) => {
@@ -47,13 +48,13 @@ function App() {
   //   e.preventDefault();
   //   dispatch(webinar(name, email, phone, message));
   //   closeHandler();
-  // };
-  const [visible, setVisible] = React.useState(true);
+  // // };
+  // const [visible, setVisible] = React.useState(true);
 
-  const closeHandler = () => {
-    setVisible(false);
-    console.log("closed");
-  };
+  // const closeHandler = () => {
+  //   setVisible(false);
+  //   console.log("closed");
+  // };
   const dispatch = useDispatch();
   useEffect(() => {
     if (error) {
@@ -77,7 +78,7 @@ function App() {
         <Header
           isAuthenticated={isAuthenticated}
           user={user}
-          closeHandler={closeHandler}
+    
         />
         <Routes>
           <Route
@@ -233,6 +234,18 @@ function App() {
                 isAdmin={user && user.role === "admin"}
               >
                 <Users />
+              </ProtectedRoute>
+            }
+          />
+              <Route
+            path="/admin/webinar"
+            element={
+              <ProtectedRoute
+                adminRoute={true}
+                isAuthenticated={isAuthenticated}
+                isAdmin={user && user.role === "admin"}
+              >
+                <Webinar />
               </ProtectedRoute>
             }
           />

@@ -107,6 +107,24 @@ export const getAllUsers = () => async dispatch => {
     });
   }
 };
+export const getAllWebinar = () => async dispatch => {
+  try {
+    const config = {
+      withCredentials: true,
+    };
+    dispatch({ type: 'getAllWebinarRequest' });
+
+    const { data } = await axios.get(`${server}/admin/webinar`, config);
+
+    dispatch({ type: 'getAllWebinarSuccess', payload: data.webinar });
+  } catch (error) {
+    dispatch({
+      type: 'getAllWebinarFail',
+      payload: error.response.data.message,
+    });
+  }
+};
+
 
 export const updateUserRole = id => async dispatch => {
   try {

@@ -35,6 +35,29 @@ export const adminReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
+    
+    getAllWebinarsRequest: state => {
+      state.loading = true;
+    },
+    getAllWebinarSuccess: (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    },
+    getAllWebinarFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    }, 
+    getAllContactsRequest: state => {
+      state.loading = true;
+    },
+    getAllContactsSuccess: (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    },
+    getAllContactFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     updateUserRoleRequest: state => {
       state.loading = true;
     },

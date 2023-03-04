@@ -73,7 +73,9 @@ const Users = () => {
                 <Th>Name</Th>
                 <Th>Email</Th>
                 <Th>Role</Th>
-                <Th>Subscription</Th>
+                {/* <Th>Subscription</Th> */}
+                <Th>Phone</Th>
+                
                 <Th isNumeric>Action</Th>
               </Tr>
             </Thead>
@@ -108,11 +110,13 @@ function Row({ item, updateHandler, deleteButtonHandler, loading }) {
       <Td>{item.name}</Td>
       <Td>{item.email}</Td>
       <Td>{item.role}</Td>
-      <Td>
+      {/* <Td>
         {item.subscription && item.subscription.status === "active"
           ? "Active"
           : "Not Active"}
-      </Td>
+      </Td> */}
+      <Td>{item.phone}</Td>
+
 
       <Td isNumeric>
         <HStack justifyContent={"flex-end"}>

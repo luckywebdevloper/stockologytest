@@ -1,6 +1,6 @@
 /** @format */
 
-import { Box, Button, Container, VStack } from "@chakra-ui/react";
+import { Box, Button, Container, Radio, RadioGroup, Stack, VStack } from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,10 @@ const Webinar = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [phone, setPhone] = useState();
+  const [beginner, setBeginner] = useState("begineer");
+  const [experience, setExperience] = useState("experience");
+
+
 
   const dispatch = useDispatch();
 
@@ -99,7 +103,18 @@ const Webinar = () => {
               />
             </GrammarlyEditorPlugin>
           </Box>
-
+{/* <Box my={'4'}>
+<RadioGroup defaultValue='2'>
+  <Stack spacing={5} direction='row'>
+    <Radio colorScheme='=green' value={"1"}>
+    Beginner
+    </Radio>
+    <Radio colorScheme='green' value={"2"}>
+    Experience
+    </Radio>
+  </Stack>
+</RadioGroup>
+</Box> */}
           <Box>
             <Text className="text md:text-base text-sm">
               *By submitting this form you agree to our terms & conditions & our
