@@ -49,12 +49,12 @@ function App() {
   //   dispatch(webinar(name, email, phone, message));
   //   closeHandler();
   // // };
-  // const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = React.useState(true);
 
-  // const closeHandler = () => {
-  //   setVisible(false);
-  //   console.log("closed");
-  // };
+  const closeHandler = () => {
+    setVisible(false);
+    console.log("closed");
+  };
   const dispatch = useDispatch();
   useEffect(() => {
     if (error) {
@@ -78,6 +78,7 @@ function App() {
         <Header
           isAuthenticated={isAuthenticated}
           user={user}
+          closeHandler={closeHandler}
     
         />
         <Routes>

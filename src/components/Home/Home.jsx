@@ -34,7 +34,7 @@ const Home = ({ isAuthenticated, closeHandler }) => {
     <div className="">
       <div>
         {" "}
-        {/* {!isAuthenticated && <WebinarPopup closeHandler={closeHandler} />} */}
+        {!isAuthenticated && <WebinarPopup closeHandler={closeHandler} />}
         <section className=" bg-gradient-to-b from-blue-100 to-transparent max-h-[2000px]  ">
           <Container lg className="">
             <Stack
