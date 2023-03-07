@@ -1,9 +1,9 @@
-import { createReducer } from '@reduxjs/toolkit';
+import { createReducer } from "@reduxjs/toolkit";
 
 export const courseReducer = createReducer(
   { courses: [], lectures: [] },
   {
-    allCoursesRequest: state => {
+    allCoursesRequest: (state) => {
       state.loading = true;
     },
     allCoursesSuccess: (state, action) => {
@@ -15,7 +15,7 @@ export const courseReducer = createReducer(
       state.error = action.payload;
     },
 
-    getCourseRequest: state => {
+    getCourseRequest: (state) => {
       state.loading = true;
     },
     getCourseSuccess: (state, action) => {
@@ -27,7 +27,7 @@ export const courseReducer = createReducer(
       state.error = action.payload;
     },
 
-    addToPlaylistRequest: state => {
+    addToPlaylistRequest: (state) => {
       state.loading = true;
     },
     addToPlaylistSuccess: (state, action) => {
@@ -39,10 +39,10 @@ export const courseReducer = createReducer(
       state.error = action.payload;
     },
 
-    clearError: state => {
+    clearError: (state) => {
       state.error = null;
     },
-    clearMessage: state => {
+    clearMessage: (state) => {
       state.message = null;
     },
   }

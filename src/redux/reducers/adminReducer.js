@@ -1,9 +1,9 @@
-import { createReducer } from '@reduxjs/toolkit';
+import { createReducer } from "@reduxjs/toolkit";
 
 export const adminReducer = createReducer(
   {},
   {
-    getAdminStatsRequest: state => {
+    getAdminStatsRequest: (state) => {
       state.loading = true;
     },
     getAdminStatsSuccess: (state, action) => {
@@ -24,7 +24,7 @@ export const adminReducer = createReducer(
       state.error = action.payload;
     },
 
-    getAllUsersRequest: state => {
+    getAllUsersRequest: (state) => {
       state.loading = true;
     },
     getAllUsersSuccess: (state, action) => {
@@ -35,30 +35,53 @@ export const adminReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
-    
-    getAllWebinarsRequest: state => {
+
+    getAllNotificationRequest: (state) => {
+      state.loading = true;
+    },
+    getAllNotificationsSuccess: (state, action) => {
+      state.loading = false;
+      state.notification = action.payload;
+    },
+    getAllNotificationsFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    getAllUserNotificationRequest: (state) => {
+      state.loading = true;
+    },
+    getAllUserNotificationsSuccess: (state, action) => {
+      state.loading = false;
+      state.notification = action.payload;
+    },
+    getAllUserNotificationsFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    getAllWebinarsRequest: (state) => {
       state.loading = true;
     },
     getAllWebinarSuccess: (state, action) => {
       state.loading = false;
-      state.users = action.payload;
+      state.webinars = action.payload;
     },
     getAllWebinarFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
-    }, 
-    getAllContactsRequest: state => {
+    },
+    getAllContactsRequest: (state) => {
       state.loading = true;
     },
     getAllContactsSuccess: (state, action) => {
       state.loading = false;
-      state.users = action.payload;
+      state.contacts = action.payload;
     },
     getAllContactFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
-    updateUserRoleRequest: state => {
+    updateUserRoleRequest: (state) => {
       state.loading = true;
     },
     updateUserRoleSuccess: (state, action) => {
@@ -69,7 +92,7 @@ export const adminReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
-    deleteUserRequest: state => {
+    deleteUserRequest: (state) => {
       state.loading = true;
     },
     deleteUserSuccess: (state, action) => {
@@ -81,7 +104,7 @@ export const adminReducer = createReducer(
       state.error = action.payload;
     },
 
-    createCourseRequest: state => {
+    createCourseRequest: (state) => {
       state.loading = true;
     },
     createCourseSuccess: (state, action) => {
@@ -92,7 +115,30 @@ export const adminReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
-    deleteCourseRequest: state => {
+
+    createNotificationRequest: (state) => {
+      state.loading = true;
+    },
+    createNotifiactionSuccess: (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    },
+    createNotificationFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    deleteNotificationRequest: (state) => {
+      state.loading = true;
+    },
+    deleteNotificationSuccess: (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    },
+    deleteNotificationFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    deleteCourseRequest: (state) => {
       state.loading = true;
     },
     deleteCourseSuccess: (state, action) => {
@@ -104,7 +150,7 @@ export const adminReducer = createReducer(
       state.error = action.payload;
     },
 
-    addLectureRequest: state => {
+    addLectureRequest: (state) => {
       state.loading = true;
     },
     addLectureSuccess: (state, action) => {
@@ -116,7 +162,7 @@ export const adminReducer = createReducer(
       state.error = action.payload;
     },
 
-    deleteLectureRequest: state => {
+    deleteLectureRequest: (state) => {
       state.loading = true;
     },
     deleteLectureSuccess: (state, action) => {
@@ -127,10 +173,10 @@ export const adminReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
-    clearError: state => {
+    clearError: (state) => {
       state.error = null;
     },
-    clearMessage: state => {
+    clearMessage: (state) => {
       state.message = null;
     },
   }

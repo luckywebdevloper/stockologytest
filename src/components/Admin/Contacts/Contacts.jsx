@@ -17,12 +17,12 @@ import React, { useEffect } from "react";
 
 import Sidebar from "../Sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllWebinar } from "../../../redux/actions/admin";
+import { getAllContacts } from "../../../redux/actions/admin";
 import toast from "react-hot-toast";
 import ReactHtmlTableToExcel3 from "react-html-table-to-excel-3";
 
-const Webinar = () => {
-  const { webinars, loading, error, message } = useSelector(
+const Contacts = () => {
+  const { contacts, loading, error, message } = useSelector(
     (state) => state.admin
   );
 
@@ -39,7 +39,7 @@ const Webinar = () => {
       dispatch({ type: "clearMessage" });
     }
 
-    dispatch(getAllWebinar());
+    dispatch(getAllContacts());
   }, [dispatch, error, message]);
 
   return (
@@ -47,7 +47,7 @@ const Webinar = () => {
       <Box p={["0", "16"]} overflowX="auto">
         <Heading
           textTransform={"uppercase"}
-          children="All Webinar Data"
+          children="All Users"
           my="16"
           textAlign={["center", "left"]}
         />
@@ -78,8 +78,8 @@ const Webinar = () => {
             </Thead>
 
             <Tbody>
-              {webinars &&
-                webinars.map((item) => (
+              {contacts &&
+                contacts.map((item) => (
                   <Row key={item._id} item={item} loading={loading} />
                 ))}
             </Tbody>
@@ -92,7 +92,7 @@ const Webinar = () => {
   );
 };
 
-export default Webinar;
+export default Contacts;
 
 function Row({ item, loading }) {
   return (

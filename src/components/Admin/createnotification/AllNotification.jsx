@@ -4,6 +4,7 @@ import {
   Grid,
   Heading,
   HStack,
+  Image,
   Table,
   TableCaption,
   TableContainer,
@@ -17,14 +18,20 @@ import React, { useEffect } from "react";
 
 import Sidebar from "../Sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllWebinar } from "../../../redux/actions/admin";
+import {
+  deleteNotification,
+  getAllNotifacation,
+} from "../../../redux/actions/admin";
 import toast from "react-hot-toast";
-import ReactHtmlTableToExcel3 from "react-html-table-to-excel-3";
+import { RiDeleteBin7Fill } from "react-icons/ri";
 
-const Webinar = () => {
-  const { webinars, loading, error, message } = useSelector(
+const AllNotifications = () => {
+  const { notification, loading, error, message } = useSelector(
     (state) => state.admin
   );
+  const deleteButtonHandler = (userId) => {
+    dispatch(deleteNotification(userId));
+  };
 
   const dispatch = useDispatch();
 
@@ -39,48 +46,49 @@ const Webinar = () => {
       dispatch({ type: "clearMessage" });
     }
 
-    dispatch(getAllWebinar());
+    dispatch(getAllNotifacation());
   }, [dispatch, error, message]);
+  console.log(notification);
 
   return (
     <Grid minH={"100vh"} templateColumns={["1fr", "5fr 1fr"]}>
       <Box p={["0", "16"]} overflowX="auto">
         <Heading
           textTransform={"uppercase"}
-          children="All Webinar Data"
+          children="All Users"
           my="16"
           textAlign={["center", "left"]}
         />
-        <ReactHtmlTableToExcel3
-          id="test-table-xls-button"
-          className="download-table-xls-button bg-green-400 py-4 px-2 rounded-sm border border-gray-400 text-xs"
-          table="table-to-xls"
-          filename="tablexls"
-          filetype="xls"
-          sheet="tablexls"
-          buttonText="Download as XLS"
-        />
+
         <TableContainer w={["100vw", "full"]}>
-          <Table variant={"simple"} size="lg" id="table-to-xls">
-            <TableCaption>All available webinar in the database</TableCaption>
+          <Table variant={"simple"} size="lg">
+            <TableCaption>
+              All available notifications in the database
+            </TableCaption>
 
             <Thead>
               <Tr>
                 <Th>Id</Th>
-                <Th>Name</Th>
-                <Th>Email</Th>
+                <Th>Title</Th>
+                <Th>Subheading</Th>
+                <Th>Discriptions</Th>
 
                 {/* <Th>Subscription</Th> */}
-                <Th>Phone</Th>
+                <Th>Image</Th>
 
-                <Th isNumeric>Action</Th>
+                {/* <Th isNumeric>Action</Th> */}
               </Tr>
             </Thead>
 
             <Tbody>
-              {webinars &&
-                webinars.map((item) => (
-                  <Row key={item._id} item={item} loading={loading} />
+              {notification &&
+                notification.map((item) => (
+                  <Row
+                    key={item._id}
+                    item={item}
+                    loading={loading}
+                    deleteButtonHandler={deleteButtonHandler}
+                  />
                 ))}
             </Tbody>
           </Table>
@@ -92,14 +100,15 @@ const Webinar = () => {
   );
 };
 
-export default Webinar;
+export default AllNotifications;
 
-function Row({ item, loading }) {
+function Row({ item, loading, deleteButtonHandler }) {
   return (
     <Tr>
       <Td>#{item._id}</Td>
-      <Td>{item.name}</Td>
-      <Td>{item.email}</Td>
+      <Td>{item.title}</Td>
+      <Td>{item.subheading}</Td>
+      <Td>{item.description}</Td>
 
       {/* <Td>{item.role}</Td> */}
       {/* <Td>
@@ -107,11 +116,17 @@ function Row({ item, loading }) {
             ? "Active"
             : "Not Active"}
         </Td> */}
-      <Td>{item.phone}</Td>
-
-      <Td isNumeric>
-        <HStack justifyContent={"flex-end"}></HStack>
+      <Td>
+        <Image src={item.poster.url} />
       </Td>
+
+      {/* <Button
+        onClick={() => deleteButtonHandler(item._id)}
+        color={"green.600"}
+        isLoading={loading}
+      >
+        <RiDeleteBin7Fill />
+      </Button> */}
     </Tr>
   );
 }

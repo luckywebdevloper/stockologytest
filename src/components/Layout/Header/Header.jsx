@@ -10,6 +10,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/actions/user";
 import { Button, Dropdown, Image, Navbar } from "@nextui-org/react";
+import Notification from "./notification/Notification";
 
 const Header = ({ isAuthenticated = false, user }) => {
   const { onClose } = useDisclosure();
@@ -85,6 +86,7 @@ const Header = ({ isAuthenticated = false, user }) => {
               },
             }}
           >
+            <Notification/>
             {isAuthenticated ? (
               <Dropdown placement="bottom-right">
                 <Navbar.Item>

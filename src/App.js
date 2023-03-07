@@ -36,6 +36,9 @@ import TermAndCondition from "./components/Term/TermAndCondition";
 // import News from "./components/News.jsx/News";
 import LandingPage from "./components/webinar/LandingPage";
 import Webinar from "./components/Admin/webinar/Webinar";
+import Contacts from "./components/Admin/Contacts/Contacts";
+import CreateNotification from "./components/Admin/createnotification/CreateNotification";
+import AllNotifications from "./components/Admin/createnotification/AllNotification";
 
 function App() {
   // window.addEventListener("contextmenu", (e) => {
@@ -79,7 +82,6 @@ function App() {
           isAuthenticated={isAuthenticated}
           user={user}
           closeHandler={closeHandler}
-    
         />
         <Routes>
           <Route
@@ -215,6 +217,18 @@ function App() {
             }
           />
           <Route
+            path="/admin/createnotification"
+            element={
+              <ProtectedRoute
+                adminRoute={true}
+                isAuthenticated={isAuthenticated}
+                isAdmin={user && user.role === "admin"}
+              >
+                <CreateNotification />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/admin/courses"
             element={
               <ProtectedRoute
@@ -238,7 +252,19 @@ function App() {
               </ProtectedRoute>
             }
           />
-              <Route
+          <Route
+            path="/admin/contacts"
+            element={
+              <ProtectedRoute
+                adminRoute={true}
+                isAuthenticated={isAuthenticated}
+                isAdmin={user && user.role === "admin"}
+              >
+                <Contacts />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/admin/webinar"
             element={
               <ProtectedRoute
@@ -247,6 +273,18 @@ function App() {
                 isAdmin={user && user.role === "admin"}
               >
                 <Webinar />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/allnotification"
+            element={
+              <ProtectedRoute
+                adminRoute={true}
+                isAuthenticated={isAuthenticated}
+                isAdmin={user && user.role === "admin"}
+              >
+                <AllNotifications />
               </ProtectedRoute>
             }
           />

@@ -24,6 +24,7 @@ import {
   updateUserRole,
 } from "../../../redux/actions/admin";
 import toast from "react-hot-toast";
+import ReactHtmlTableToExcel3 from "react-html-table-to-excel-3";
 
 const Users = () => {
   const { users, loading, error, message } = useSelector(
@@ -64,7 +65,16 @@ const Users = () => {
         />
 
         <TableContainer w={["100vw", "full"]}>
-          <Table variant={"simple"} size="lg">
+          <ReactHtmlTableToExcel3
+            id="test-table-xls-button"
+            className="download-table-xls-button bg-green-400 py-4 px-2 rounded-sm border border-gray-400 text-xs"
+            table="table-to-xls"
+            filename="tablexls"
+            filetype="xls"
+            sheet="tablexls"
+            buttonText="Download as XLS"
+          />
+          <Table variant={"simple"} size="lg" id="table-to-xls">
             <TableCaption>All available users in the database</TableCaption>
 
             <Thead>
@@ -75,7 +85,7 @@ const Users = () => {
                 <Th>Role</Th>
                 {/* <Th>Subscription</Th> */}
                 <Th>Phone</Th>
-                
+
                 <Th isNumeric>Action</Th>
               </Tr>
             </Thead>
@@ -117,17 +127,16 @@ function Row({ item, updateHandler, deleteButtonHandler, loading }) {
       </Td> */}
       <Td>{item.phone}</Td>
 
-
       <Td isNumeric>
         <HStack justifyContent={"flex-end"}>
-          <Button
+          {/* <Button
             onClick={() => updateHandler(item._id)}
             variant={"outline"}
             color="purple.500"
             isLoading={loading}
           >
             Change Role
-          </Button>
+          </Button> */}
 
           <Button
             onClick={() => deleteButtonHandler(item._id)}
