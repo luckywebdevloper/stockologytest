@@ -86,59 +86,61 @@ const Header = ({ isAuthenticated = false, user }) => {
               },
             }}
           >
-            <Notification/>
             {isAuthenticated ? (
-              <Dropdown placement="bottom-right">
-                <Navbar.Item>
-                  <Dropdown.Trigger>
-                    <Avatar
-                      bordered
-                      as="button"
-                      textColor="white"
-                      size="md"
-                      src={user.avatar.url}
-                    />
-                  </Dropdown.Trigger>
-                </Navbar.Item>
-                <Dropdown.Menu
-                  aria-label="User menu actions"
-                  color="success"
-                  onAction={(actionKey) => console.log({ actionKey })}
-                >
-                  <Dropdown.Item key="profile" css={{ height: "$18" }} w>
-                    <Text b color="inherit" css={{ d: "flex" }}>
-                      Signed in as
-                    </Text>
-                    <Text b color="inherit" css={{ d: "flex" }}>
-                      {user.email}
-                    </Text>
-                  </Dropdown.Item>
+              <>
+                {" "}
+                <Notification />
+                <Dropdown placement="bottom-right">
+                  <Navbar.Item>
+                    <Dropdown.Trigger>
+                      <Avatar
+                        bordered
+                        as="button"
+                        textColor="white"
+                        size="md"
+                        src={user.avatar.url}
+                      />
+                    </Dropdown.Trigger>
+                  </Navbar.Item>
+                  <Dropdown.Menu
+                    aria-label="User menu actions"
+                    color="success"
+                    onAction={(actionKey) => console.log({ actionKey })}
+                  >
+                    <Dropdown.Item key="profile" css={{ height: "$18" }} w>
+                      <Text b color="inherit" css={{ d: "flex" }}>
+                        Signed in as
+                      </Text>
+                      <Text b color="inherit" css={{ d: "flex" }}>
+                        {user.email}
+                      </Text>
+                    </Dropdown.Item>
 
-                  <Dropdown.Item key="system" withDivider>
-                    <Link to="/profile" style={{ width: "100%" }}>
-                      Edit Profile
-                    </Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item key="favorites">FAVORITES</Dropdown.Item>
-                  <Dropdown.Item key="help_and_feedback" withDivider>
-                    Help & Support
-                  </Dropdown.Item>
-                  <Dropdown.Item key="logout" withDivider color="error">
-                    <Link onClick={logoutHandler} to="/">
-                      {" "}
-                      Log Out
-                    </Link>
-                  </Dropdown.Item>
-                  {user && user.role === "admin" && (
-                    <Dropdown.Item withDivider color="secondary" onClick={""}>
-                      <Link onClick={onClose} to="/admin/dashboard">
-                        
-                        Dashboard
+                    <Dropdown.Item key="system" withDivider>
+                      <Link to="/profile" style={{ width: "100%" }}>
+                        Edit Profile
                       </Link>
                     </Dropdown.Item>
-                  )}
-                </Dropdown.Menu>
-              </Dropdown>
+                    <Dropdown.Item key="favorites">FAVORITES</Dropdown.Item>
+                    <Dropdown.Item key="help_and_feedback" withDivider>
+                      Help & Support
+                    </Dropdown.Item>
+                    <Dropdown.Item key="logout" withDivider color="error">
+                      <Link onClick={logoutHandler} to="/">
+                        {" "}
+                        Log Out
+                      </Link>
+                    </Dropdown.Item>
+                    {user && user.role === "admin" && (
+                      <Dropdown.Item withDivider color="secondary" onClick={""}>
+                        <Link onClick={onClose} to="/admin/dashboard">
+                          Dashboard
+                        </Link>
+                      </Dropdown.Item>
+                    )}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </>
             ) : (
               <Link
                 to="/login"
