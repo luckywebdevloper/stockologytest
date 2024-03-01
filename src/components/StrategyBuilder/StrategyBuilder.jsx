@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Wrap,
@@ -20,6 +20,7 @@ import StrategyCard from "./StrategyCard";
 import LotQty from "./LotQty";
 import SelectOptions from "./SelectOptions";
 import _ from "lodash";
+import OptionChainTable from "./OptionChainTable";
 
 const colors = [
   "#76c7db",
@@ -107,44 +108,6 @@ const StrategyBuilder = () => {
     console.log("event:>> ", event);
     setTransactionType(event);
   };
-
-  const cookie = "JSESSIONID=8026D3663A38A4A762E0BB6803C7AB07";
-
-  async function getTickers() {
-    try {
-      const res = await fetch(
-        "https://opstra.definedge.com/api/tickers",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Cookie: cookie,
-          },
-        }
-      );
-
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-
-      const data = await res.json();
-      console.log("Fetched data:", data);
-      return data;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      // Handle the error as needed
-    }
-  }
-
-  // const handleSelectChange = (event) => {
-  //   console.log("event", event.target.value);
-  //   setSegment(event.target.value);
-  // };
-
-  useEffect(() => {
-    const data = getTickers();
-    setTickers(data);
-  }, []);
 
   return (
     <Container minWidth={"80vw"} color={"black"}>
@@ -319,10 +282,7 @@ const StrategyBuilder = () => {
             </AccordionButton>
 
             <AccordionPanel pb={4}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              <OptionChainTable />
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
