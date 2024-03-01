@@ -150,53 +150,55 @@ const OptionChainTable = () => {
     })();
   }, []);
 
-  return (
-    <div>
-      <div className="flex justify-start gap-8 items-center mb-4">
-        <SelectOptions
-          bottomText={`Expiry Date`}
-          options={expiryDates}
-          handleSelectChange={setDate}
-        />
-        <Text className="text-slate-600">{`last updated ${data.timestamp}`}</Text>
-      </div>
+  if (data)
+    return (
+      <div>
+        <div className="flex justify-start gap-8 items-center mb-4">
+          <SelectOptions
+            bottomText={`Expiry Date`}
+            options={expiryDates}
+            handleSelectChange={setDate}
+          />
+          <Text className="text-slate-600">{`last updated ${data.timestamp}`}</Text>
+        </div>
 
-      <TableContainer>
-        <Table size="sm">
-          <Thead>
-            <Tr>
-              {headerContent.map((content, idx) => (
-                <HeaderCell key={idx} content={content} />
-              ))}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {selectedData.map((row, idx) => (
-              <Tr key={`unique-${idx}`}>
-                <UnstyledTd value={row?.CE?.totalTradedVolume} />
-                <UnstyledTd value={row?.CE?.openInterest} />
-
-                <StyledTd value={row?.CE?.changeinOpenInterest} />
-                <StyledTd value={row?.CE?.change} />
-
-                <UnstyledTd value={row?.CE?.lastPrice} />
-
-                <UnstyledTd value={row?.strikePrice} />
-
-                <UnstyledTd value={row?.PE?.lastPrice} />
-
-                <StyledTd value={row?.PE?.change} />
-                <StyledTd value={row?.PE?.changeinOpenInterest} />
-
-                <UnstyledTd value={row?.PE?.openInterest} />
-                <UnstyledTd value={row?.PE?.totalTradedVolume} />
+        <TableContainer>
+          <Table size="sm">
+            <Thead>
+              <Tr>
+                {headerContent.map((content, idx) => (
+                  <HeaderCell key={idx} content={content} />
+                ))}
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </div>
-  );
+            </Thead>
+            <Tbody>
+              {selectedData.map((row, idx) => (
+                <Tr key={`unique-${idx}`}>
+                  <UnstyledTd value={row?.CE?.totalTradedVolume} />
+                  <UnstyledTd value={row?.CE?.openInterest} />
+
+                  <StyledTd value={row?.CE?.changeinOpenInterest} />
+                  <StyledTd value={row?.CE?.change} />
+
+                  <UnstyledTd value={row?.CE?.lastPrice} />
+
+                  <UnstyledTd value={row?.strikePrice} />
+
+                  <UnstyledTd value={row?.PE?.lastPrice} />
+
+                  <StyledTd value={row?.PE?.change} />
+                  <StyledTd value={row?.PE?.changeinOpenInterest} />
+
+                  <UnstyledTd value={row?.PE?.openInterest} />
+                  <UnstyledTd value={row?.PE?.totalTradedVolume} />
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </div>
+    );
+  return <Text className="text-red-500 text-center">Something went wrong while fetching the data!</Text>;
 };
 
 export default OptionChainTable;
