@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Container,
   Wrap,
@@ -21,6 +21,7 @@ import LotQty from "./LotQty";
 import SelectOptions from "./SelectOptions";
 import _ from "lodash";
 import OptionChainTable from "./OptionChainTable";
+import Chart from "./chart";
 
 const colors = [
   "#76c7db",
@@ -88,11 +89,13 @@ const StrategyBuilder = () => {
   const [positions, setPositions] = useState([]);
   const [lotQty, setLotQty] = useState(1);
   const firstSymbol = "Choose symbol";
-  const [initialSymbols, setInitialSymbols] = useState(["Choose symbol"]);
-  const [symbols, setSymbols] = useState([firstSymbol]);
+  const [initialSymbols, setInitialSymbols] = useState([firstSymbol]);
+  const [symbols, setSymbols] = useState([]);
 
   const [selectedInstrument, setSelectedInstrument] = useState(indexes[0]);
   const [instrumentData, setInstrumentData] = useState({});
+
+  const isInitialRender = useRef(true);
 
   const addPosition = (transactionType, segment, price, lotQty) => {
     const position = { transactionType, segment, price, lotQty };
@@ -149,14 +152,24 @@ const StrategyBuilder = () => {
 
   useEffect(() => {
     (async () => {
+      const instrumentRes = await getInstrumentData(
+        selectedInstrument,
+        "index"
+      );
+      setInstrumentData(instrumentRes);
+
       const res = await getSymbols();
       console.log("symbols :>> ", res);
       setInitialSymbols([...res]);
-      setSymbols([initialSymbols, ...res]);
+      setSymbols([firstSymbol, ...res]);
     })();
   }, []);
 
   useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
     (async () => {
       const isIndexSelected = indexes.includes(selectedInstrument);
       if (isIndexSelected) {
@@ -166,9 +179,7 @@ const StrategyBuilder = () => {
         selectedInstrument,
         isIndexSelected ? "index" : "symbol"
       );
-
       setInstrumentData(instrumentRes);
-
       // it is written again to reset the symbol if index is selected
       if (isIndexSelected) {
         setSymbols([firstSymbol, ...initialSymbols]);
@@ -376,14 +387,8 @@ const StrategyBuilder = () => {
             <Text fontSize={"2xl"} textAlign={"center"}>
               Payoff Chart
             </Text>
-            <Stack p={4} direction={"row"}>
-              <Stack
-                p={4}
-                border={"1px solid red"}
-                direction={"column"}
-                gap={5}
-                width={"35%"}
-              >
+            <Stack p={4} direction={"column-reverse"}>
+              <Stack p={4} pl={12} direction={"column"} gap={5} width={"100%"}>
                 <Text fontSize={"xl"}>Strategy Positions</Text>
                 <Stack direction={"column"} alignItems={"flex-start"}>
                   {positions?.map((position, idx) => (
@@ -403,7 +408,7 @@ const StrategyBuilder = () => {
                     </Stack>
                   ))}
                 </Stack>
-                <Stack direction={"column"} border={"1px solid red"}>
+                <Stack direction={"column"}>
                   {positionDetails.map(([key, value]) => (
                     <Stack key={key} direction={"row"}>
                       <Text fontWeight={"bold"}>{key} :</Text>{" "}
@@ -412,15 +417,12 @@ const StrategyBuilder = () => {
                   ))}
                 </Stack>
               </Stack>
-              <Stack border={"1px solid red"} width={"65%"} p={4}>
+              <Stack width={"100%"} p={4}>
                 <Text textAlign={"center"} fontSize={"xl"}>
                   {selectedInstrument}
                 </Text>
-                <Stack height={"75%"} border={"1px solid red"}>
-                  <Text>Chart</Text>
-                </Stack>
-                <Stack height={"25%"} border={"1px solid red"}>
-                  <Text>Sliders</Text>
+                <Stack height={"75%"}>
+                  <Chart />
                 </Stack>
               </Stack>
             </Stack>
