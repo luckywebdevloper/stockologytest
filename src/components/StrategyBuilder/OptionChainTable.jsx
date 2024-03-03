@@ -81,32 +81,12 @@ const UnstyledTd = ({ value }) => {
   );
 };
 
-const OptionChainTable = () => {
-  const [data, setData] = useState([]);
-  const [expiryDates, setExpiryDates] = useState([]);
-  const [date, setDate] = useState("");
+const OptionChainTable = ({ data }) => {
+  const expiryDates = data?.expiryDates;
+  const [date, setDate] = useState(data?.expiryDates[0]);
   const [groupedData, setGroupedData] = useState({});
   const [selectedData, setSelectedData] = useState([]);
-
-  async function getData() {
-    try {
-      const res = await fetch("http://localhost:3001/chain", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-
-      const data = await res.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
+  console.log("OptionChainTableData :>> ", data);
 
   function changeExpiryDate(expiryDate) {
     setSelectedData(groupedData[expiryDate]);
@@ -136,69 +116,60 @@ const OptionChainTable = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await getData();
-      const data = res?.records;
-      console.log("data :>> ", data);
-      setData(data);
-      setExpiryDates(data?.expiryDates);
-      setDate(data?.expiryDates[0]);
       const groupedData = groupByExpiryDate(data?.data);
-      console.log("groupedData:>>", groupedData);
       setGroupedData(groupedData);
       setSelectedData(groupedData[data?.expiryDates[0]]);
       console.log("selectedData :>> ", groupedData[data?.expiryDates[0]]);
     })();
-  }, []);
+  }, [data]);
 
-  if (data)
-    return (
-      <div>
-        <div className="flex justify-start gap-8 items-center mb-4">
-          <SelectOptions
-            bottomText={`Expiry Date`}
-            options={expiryDates}
-            handleSelectChange={setDate}
-          />
-          <Text className="text-slate-600">{`last updated ${data.timestamp}`}</Text>
-        </div>
-
-        <TableContainer>
-          <Table size="sm">
-            <Thead>
-              <Tr>
-                {headerContent.map((content, idx) => (
-                  <HeaderCell key={idx} content={content} />
-                ))}
-              </Tr>
-            </Thead>
-            <Tbody>
-              {selectedData.map((row, idx) => (
-                <Tr key={`unique-${idx}`}>
-                  <UnstyledTd value={row?.CE?.totalTradedVolume} />
-                  <UnstyledTd value={row?.CE?.openInterest} />
-
-                  <StyledTd value={row?.CE?.changeinOpenInterest} />
-                  <StyledTd value={row?.CE?.change} />
-
-                  <UnstyledTd value={row?.CE?.lastPrice} />
-
-                  <UnstyledTd value={row?.strikePrice} />
-
-                  <UnstyledTd value={row?.PE?.lastPrice} />
-
-                  <StyledTd value={row?.PE?.change} />
-                  <StyledTd value={row?.PE?.changeinOpenInterest} />
-
-                  <UnstyledTd value={row?.PE?.openInterest} />
-                  <UnstyledTd value={row?.PE?.totalTradedVolume} />
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
+  return (
+    <div>
+      <div className="flex justify-start gap-8 items-center mb-4">
+        <SelectOptions
+          bottomText={`Expiry Date`}
+          options={expiryDates}
+          handleSelectChange={setDate}
+        />
+        <Text className="text-slate-600">{`last updated ${data.timestamp}`}</Text>
       </div>
-    );
-  return <Text className="text-red-500 text-center">Something went wrong while fetching the data!</Text>;
+
+      <TableContainer>
+        <Table size="sm">
+          <Thead>
+            <Tr>
+              {headerContent.map((content, idx) => (
+                <HeaderCell key={idx} content={content} />
+              ))}
+            </Tr>
+          </Thead>
+          <Tbody>
+            {selectedData.map((row, idx) => (
+              <Tr key={`unique-${idx}`}>
+                <UnstyledTd value={row?.CE?.totalTradedVolume} />
+                <UnstyledTd value={row?.CE?.openInterest} />
+
+                <StyledTd value={row?.CE?.changeinOpenInterest} />
+                <StyledTd value={row?.CE?.change} />
+
+                <UnstyledTd value={row?.CE?.lastPrice} />
+
+                <UnstyledTd value={row?.strikePrice} />
+
+                <UnstyledTd value={row?.PE?.lastPrice} />
+
+                <StyledTd value={row?.PE?.change} />
+                <StyledTd value={row?.PE?.changeinOpenInterest} />
+
+                <UnstyledTd value={row?.PE?.openInterest} />
+                <UnstyledTd value={row?.PE?.totalTradedVolume} />
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </div>
+  );
 };
 
 export default OptionChainTable;

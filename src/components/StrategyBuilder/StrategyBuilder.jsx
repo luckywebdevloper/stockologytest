@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Wrap,
@@ -32,15 +32,7 @@ const colors = [
   "#f06292",
 ];
 
-const stockOptions = [
-  "Nifty",
-  "Nasdaq",
-  "Nifty1",
-  "Nifty2",
-  "Nifty3",
-  "Nifty4",
-  "Nifty5",
-];
+const indexes = ["NIFTY", "FINNIFTY", "BANKNIFTY", "MIDCPNIFTY"];
 
 const strategyInfo = [
   { name: "bullish", id: "bullish" },
@@ -89,15 +81,18 @@ const positionDetails = [
 ];
 
 const StrategyBuilder = () => {
-  const [chosenStock, setChosenStock] = useState("Nifty");
   const [date, setDate] = useState(new Date());
   const [strategiesMode, setStrategiesMode] = useState(strategyInfo[0].id);
   const [transactionType, setTransactionType] = useState("buy");
   const [segment, setSegment] = useState("futures");
   const [positions, setPositions] = useState([]);
   const [lotQty, setLotQty] = useState(1);
+  const firstSymbol = "Choose symbol";
+  const [initialSymbols, setInitialSymbols] = useState(["Choose symbol"]);
+  const [symbols, setSymbols] = useState([firstSymbol]);
 
-  const [tickers, setTickers] = useState([]);
+  const [selectedInstrument, setSelectedInstrument] = useState(indexes[0]);
+  const [instrumentData, setInstrumentData] = useState({});
 
   const addPosition = (transactionType, segment, price, lotQty) => {
     const position = { transactionType, segment, price, lotQty };
@@ -109,16 +104,95 @@ const StrategyBuilder = () => {
     setTransactionType(event);
   };
 
+  const getSymbols = async () => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/symbols`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching symbol list:", error);
+    }
+  };
+
+  const getInstrumentData = async (instrument, type) => {
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/chain?${type}=${instrument}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching index or symbol detail:", error);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const res = await getSymbols();
+      console.log("symbols :>> ", res);
+      setInitialSymbols([...res]);
+      setSymbols([initialSymbols, ...res]);
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const isIndexSelected = indexes.includes(selectedInstrument);
+      if (isIndexSelected) {
+        setSymbols([firstSymbol]);
+      }
+      const instrumentRes = await getInstrumentData(
+        selectedInstrument,
+        isIndexSelected ? "index" : "symbol"
+      );
+
+      setInstrumentData(instrumentRes);
+
+      // it is written again to reset the symbol if index is selected
+      if (isIndexSelected) {
+        setSymbols([firstSymbol, ...initialSymbols]);
+      }
+    })();
+  }, [selectedInstrument]);
+
   return (
     <Container minWidth={"80vw"} color={"black"}>
-      {/* <StrategyModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} /> */}
       <Stack gap={10}>
         <Stack w={"full"} gap={8} alignItems={"flex-start"} py={8}>
-          <SelectOptions
-            options={tickers}
-            bottomText={"Select Index/Stock"}
-            handleSelectChange={setChosenStock}
-          />
+          <Stack direction={"row"} gap={10} alignItems={"center"}>
+            <SelectOptions
+              options={indexes}
+              bottomText={"Select Index"}
+              handleSelectChange={setSelectedInstrument}
+            />
+            <Text>OR</Text>
+            <SelectOptions
+              options={symbols}
+              bottomText={"Select Symbol"}
+              handleSelectChange={setSelectedInstrument}
+            />
+          </Stack>
           <Stack
             direction={"row"}
             width={"100%"}
@@ -282,7 +356,13 @@ const StrategyBuilder = () => {
             </AccordionButton>
 
             <AccordionPanel pb={4}>
-              <OptionChainTable />
+              {instrumentData?.records ? (
+                <OptionChainTable data={instrumentData?.records} />
+              ) : (
+                <Text className="text-red-500 text-center">
+                  Something went wrong while fetching the data!
+                </Text>
+              )}
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
@@ -334,13 +414,13 @@ const StrategyBuilder = () => {
               </Stack>
               <Stack border={"1px solid red"} width={"65%"} p={4}>
                 <Text textAlign={"center"} fontSize={"xl"}>
-                  {chosenStock}
+                  {selectedInstrument}
                 </Text>
                 <Stack height={"75%"} border={"1px solid red"}>
                   <Text>Chart</Text>
                 </Stack>
                 <Stack height={"25%"} border={"1px solid red"}>
-                  <Text>Silders</Text>
+                  <Text>Sliders</Text>
                 </Stack>
               </Stack>
             </Stack>
