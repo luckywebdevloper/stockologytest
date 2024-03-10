@@ -52,6 +52,7 @@ import RefundPolicy from "./components/Term/RefundPolicy";
 import Event from "./components/Events/Event";
 import Screener from "./components/Screener/Screener";
 import StrategyBuilder from "./components/StrategyBuilder/StrategyBuilder";
+import Portfolio from "./components/Porfolio/Portfolio";
 
 function App() {
   window.addEventListener("contextmenu", (e) => {
@@ -109,6 +110,7 @@ function App() {
           />
 
           <Route path="/strategy-builder" element={<StrategyBuilder />} />
+          <Route path="/strategy-builder/portfolio" element={<Portfolio />} />
 
           <Route path="/courses" element={<Courses />} />
           <Route path="/offline-courses" element={<Offline_Courses />} />
