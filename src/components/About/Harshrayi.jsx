@@ -22,7 +22,7 @@ const Harsh_Rai = () => {
       <Heading fontSize={"4xl"} className="heading_1 ">
         Harsh Rai
       </Heading>
-      <Text className=" font-semibold text-lg"> 2+ Year Experience</Text>
+      <Text className=" font-semibold text-lg"> 7+ Year Experience</Text>
       <Text className=" font-semibold text-lg"> Certified Trainer</Text>
     </Box>
   );
